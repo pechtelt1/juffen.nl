@@ -6,6 +6,7 @@ use App\Filament\Resources\PostResource\Pages;
 use App\Filament\Resources\PostResource\RelationManagers;
 use App\Models\Post;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -31,7 +32,12 @@ class PostResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Textarea::make('description')
                     ->maxLength(65535),
-                Forms\Components\Toggle::make('is_published')
+                Forms\Components\Toggle::make('is_published'),
+                FileUpload::make('filepath_docx'),
+                FileUpload::make('filepath_pdf')
+                    ->disk('local')
+                    ->directory('uploads')
+                    ->preserveFilenames()
             ]);
     }
 
