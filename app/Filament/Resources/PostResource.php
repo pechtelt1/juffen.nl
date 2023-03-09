@@ -36,7 +36,7 @@ class PostResource extends Resource
                 FileUpload::make('filepath_docx'),
                 FileUpload::make('filepath_pdf')
                     ->disk('local')
-                    ->directory('uploads')
+                    ->directory('post')
                     ->preserveFilenames()
             ]);
     }

@@ -19,4 +19,9 @@ class Post extends Model
     {
         return static::where('slug', $slug)->firstOrFail();
     }
+
+    public static function allPublishedPosts()
+    {
+        return static::where('is_published', true)->get();
+    }
 }
