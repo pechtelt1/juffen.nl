@@ -14,4 +14,9 @@ class Post extends Model
         'filepath_docx',
         'filepath_pdf',
     ];
+
+    public static function findBySlug($slug)
+    {
+        return static::where('slug', $slug)->firstOrFail();
+    }
 }

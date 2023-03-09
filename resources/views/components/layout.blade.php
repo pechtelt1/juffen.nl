@@ -1,26 +1,38 @@
-<div class="container flex flex-col flex-wrap items-center py-5 mx-auto max-w-7xl md:flex-row">
-    <a href="/"
-       class="inline-flex items-center justify-center px-2 py-2 text-base">
-            <span class="text-xl font-black leading-none text-gray-900 select-none logo">Juffen<span
-                    class="text-indigo-600" data-primary="indigo-600">.</span>nl</span>
-    </a>
+<!doctype html>
 
-{{--        <div class="inline-flex items-center space-x-6 md:w-2/5 md:justify-end">--}}
-{{--            <a href="#donate"--}}
-{{--               class="text-base font-medium leading-6 text-gray-600 whitespace-no-wrap transition duration-150 ease-in-out hover:text-gray-900"><span--}}
-{{--                    style="font-size: 18px; font-weight: 600; text-align: center;">☕️ Doneer</span></a>--}}
-{{--            <a href="#uploaden"--}}
-{{--               class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"--}}
-{{--               data-rounded="rounded-md" data-primary="indigo-600">Uploaden</a>--}}
-{{--        </div>--}}
+<title>Juffen.nl - de plek voor jouw bestanden!</title>
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 
-</div>
+<body style="font-family: Open Sans, sans-serif">
+<section class="px-6 py-8">
+    <nav class="md:flex md:justify-between md:items-center">
+        <div>
+            <a href="/">
+                <img src="/images/logo.svg" alt="Laracasts Logo" width="135" height="16">
+            </a>
+        </div>
 
-{{ $slot }}
+        <div class="mt-8 md:mt-0">
+            <a href="/" class="text-xs font-bold uppercase">Home Page</a>
 
-<p class="mt-8 text-base leading-6 text-center text-gray-400">
-    Made with <span class="text-red-500">♥</span> by <a href="https://www.juffen.nl"
-                                                        class="text-indigo-600">Juffen.nl</a>
-    <br>
-    <br>
-</p>
+            <a href="#"
+               class="bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
+                Upload jouw bestanden
+            </a>
+        </div>
+    </nav>
+
+    {{ $slot }}
+
+    <footer class="text-center py-0.5 px-12 mt-16">
+        <p class="mt-8 text-base leading-6 text-center text-gray-400">
+            Made with <span class="text-red-500">♥</span> by <a href="https://www.juffen.nl"
+                                                                class="text-indigo-600">Juffen.nl</a>
+            <br>
+            <br>
+        </p>
+    </footer>
+</section>
+</body>
