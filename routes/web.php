@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Group;
 use App\Models\Post;
+use App\Models\Subject;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,8 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('posts', [
-        'posts' => Post::allPublishedPosts()
-        ->sortByDesc('created_at')
+        'posts' => Post::allPublishedPosts()->sortByDesc('created_at'),
+        'groups' => Group::all(),
+        'subjects' => Subject::all(),
     ]);
 });
 
@@ -31,12 +34,29 @@ Route::get('upload', function () {
     return view('upload');
 });
 
-// Create post method for creating a post
+Route::get('groups/{group:slug}', function (Group $group) {
+    return view('posts', [
+        'posts' => $group->posts,
+        'groups' => Group::all(),
+        'subjects' => Subject::all(),
+    ]);
+});
+
+Route::get('subjects/{subject:slug}', function (Subject $subject) {
+    return view('posts', [
+        'posts' => $subject->posts,
+        'subjects' => Subject::all(),
+        'groups' => Group::all(),
+    ]);
+});
+
 Route::post('upload', function () {
     $post = new Post();
     $post->title = request('title');
     $post->slug = request('slug');
     $post->description = request('description');
+    $post->group_id = 1;
+    $post->subject_id = 1;
 
     if ($post->filepath_docx = request('filepath_docx')) {
         $post->filepath_docx = request('filepath_docx')->store('/Users/patrick/Documenten/GitHub/juffen.nl/public');
@@ -44,7 +64,6 @@ Route::post('upload', function () {
     if ($post->filepath_pdf = request('filepath_pdf')) {
         $post->filepath_pdf = request('filepath_pdf')->store('/Users/patrick/Documenten/GitHub/juffen.nl/public');
     }
-
     $post->save();
     return redirect('/upload');
 });

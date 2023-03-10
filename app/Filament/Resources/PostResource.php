@@ -4,9 +4,12 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostResource\Pages;
 use App\Filament\Resources\PostResource\RelationManagers;
+use App\Models\Group;
 use App\Models\Post;
+use App\Models\Subject;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -37,7 +40,15 @@ class PostResource extends Resource
                 FileUpload::make('filepath_pdf')
                     ->disk('local')
                     ->directory('post')
-                    ->preserveFilenames()
+                    ->preserveFilenames(),
+                Select::make('group_id')
+                    ->options(function () {
+                        return Group::all()->pluck('name', 'id');
+                    }),
+                Select::make('subject_id')
+                    ->options(function () {
+                        return Subject::all()->pluck('name', 'id');
+                    })
             ]);
     }
 

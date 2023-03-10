@@ -5,7 +5,11 @@
         voor&nbsp;al hun bestanden</h1>
 
     <br>
-{{--    <h2 class="inline-flex mt-2">By Patrick <img src="/images/lary-head.svg"--}}
-{{--                                                 alt="Head of Lary the mascot"></h2>--}}
-    <x-layout-filter/>
+    {{--    <h2 class="inline-flex mt-2">By Patrick <img src="/images/lary-head.svg"--}}
+    {{--                                                 alt="Head of Lary the mascot"></h2>--}}
+
+    <div class="mt-4">
+        <x-dropdown :groups="$groups" :subjects="$subjects"/>
+    </div>
+
 </header>

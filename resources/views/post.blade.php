@@ -38,7 +38,7 @@
                         </a>
 
                         <div class="space-x-2">
-                            <x-category-buttons/>
+                            <x-category-buttons :post="$post"/>
                         </div>
                     </div>
 
@@ -55,12 +55,15 @@
                     </div>
 
                     @if($post->filepath_pdf)
-                    <div class="flex justify-center">
-                        <a href="{{ URL::to($post->filepath_pdf) }}" class="bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5 mt-4">Download</a>
-                    </div>
+                        <div class="flex justify-center">
+                            <a href="{{ URL::to($post->filepath_pdf) }}"
+                               class="bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5 mt-4">Download</a>
+                        </div>
                     @else
                         <div class="flex justify-center">
-                            <a href="/" class="bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5 mt-4">No download available</a>
+                            <a href="/"
+                               class="bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5 mt-4">No
+                                download available</a>
                         </div>
                     @endif
                 </div>

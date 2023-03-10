@@ -13,7 +13,19 @@ class Post extends Model
         'is_published',
         'filepath_docx',
         'filepath_pdf',
+        'group_id',
+        'subject_id',
     ];
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
+    }
 
     public static function findBySlug($slug)
     {

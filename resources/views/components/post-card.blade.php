@@ -5,13 +5,13 @@
     <a href="/post/{{ $post->slug }}">
         <div class="py-6 px-5">
             <div>
-                <img src="images/illustration-1.png" alt="Blog Post illustration" class="rounded-xl">
+                <img src="/images/illustration-1.png" alt="Blog Post illustration" class="rounded-xl">
             </div>
 
             <div class="mt-2.5 flex flex-col justify-between">
                 <header>
                     <div class="space-x-2">
-                        <x-category-buttons/>
+                        <x-category-buttons :post="$post"/>
                     </div>
 
                     <div class="mt-5">

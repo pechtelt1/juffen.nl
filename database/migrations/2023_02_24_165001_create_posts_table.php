@@ -11,6 +11,8 @@ return new class extends Migration {
             $table->id();
             $table->string('title');
             $table->string('slug')->nullable();
+            $table->foreignId('group_id')->constrained()->nullable();
+            $table->foreignId('subject_id')->constrained()->nullable();
             $table->text('description')->nullable();
             $table->boolean('is_published')->default(false);
             $table->string('filepath_docx')->nullable();

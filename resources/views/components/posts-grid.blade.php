@@ -1,6 +1,6 @@
 @props(['posts'])
 
-@if ($posts->count() > 1)
+@if ($posts->count())
     <div class="lg:grid lg:grid-cols-4">
         @foreach($posts as $post)
             <x-post-card :post="$post"/>
