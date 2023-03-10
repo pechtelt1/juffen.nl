@@ -64,8 +64,15 @@
         </form>
     </div>
 
-    <div x-data="{show: true}"  class="relative flex lg:inline-flex items-center">
-        <a href="/"><h3 x-show="show" class="underline hover:text-blue-600" style="display: none">Remove filters</h3></a>
+    <div
+        x-data="{ show : false }"
+        x-init="if (window.location.href.includes('groups') || window.location.href.includes('subjects')) {
+            show = true
+        }"
+        class="relative flex lg:inline-flex items-center">
+        <a href="/">
+            <h3 x-show="show" class="underline hover:text-blue-600" style="display: none">Verwijder filters</h3>
+        </a>
     </div>
 
 </div>

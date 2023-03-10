@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\GroupResource\Pages;
 use App\Filament\Resources\GroupResource\RelationManagers;
 use App\Models\Group;
+use Closure;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -12,6 +13,7 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class GroupResource extends Resource
 {
@@ -27,11 +29,19 @@ class GroupResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
+                    ->afterStateUpdated(function (Closure $get, Closure $set, ?string $state) {
+                        if (!$get('is_slug_changed_manually') && filled($state)) {
+                            $set('slug', Str::slug($state));
+                        }
+                    })
+                    ->reactive()
+                    ->required(),
                 Forms\Components\TextInput::make('slug')
-                    ->required()
-                    ->maxLength(255),
+                    ->afterStateUpdated(function (Closure $set) {
+                        $set('is_slug_changed_manually', true);
+                    })
+                    ->reactive()
+                    ->disabled(),
             ]);
     }
 

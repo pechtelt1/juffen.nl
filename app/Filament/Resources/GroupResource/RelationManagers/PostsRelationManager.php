@@ -2,7 +2,11 @@
 
 namespace App\Filament\Resources\GroupResource\RelationManagers;
 
+use App\Models\Group;
+use App\Models\Subject;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
@@ -23,6 +27,25 @@ class PostsRelationManager extends RelationManager
                 Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('slug')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\Textarea::make('description')
+                    ->maxLength(65535),
+                Forms\Components\Toggle::make('is_published'),
+                FileUpload::make('filepath_docx'),
+                FileUpload::make('filepath_pdf')
+                    ->disk('local')
+                    ->directory('post')
+                    ->preserveFilenames(),
+                Select::make('group_id')
+                    ->options(function () {
+                        return Group::all()->pluck('name', 'id');
+                    }),
+                Select::make('subject_id')
+                    ->options(function () {
+                        return Subject::all()->pluck('name', 'id');
+                    })
             ]);
     }
 
@@ -31,6 +54,8 @@ class PostsRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime(),
             ])
             ->filters([
                 //
@@ -40,10 +65,8 @@ class PostsRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }    
+    }
 }
