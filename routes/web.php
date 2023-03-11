@@ -37,6 +37,7 @@ Route::get('upload', function () {
 Route::get('groups/{group:slug}', function (Group $group) {
     return view('posts', [
         'posts' => $group->posts,
+        'currentGroup' => $group->name,
         'groups' => Group::all(),
         'subjects' => Subject::all(),
     ]);
@@ -53,16 +54,17 @@ Route::get('subjects/{subject:slug}', function (Subject $subject) {
 Route::post('upload', function () {
     $post = new Post();
     $post->title = request('title');
-    $post->slug = request('slug');
+    $post->slug = request('title');
     $post->description = request('description');
     $post->group_id = 1;
     $post->subject_id = 1;
 
+
     if ($post->filepath_docx = request('filepath_docx')) {
-        $post->filepath_docx = request('filepath_docx')->store('/Users/patrick/Documenten/GitHub/juffen.nl/public');
+        $post->filepath_docx = request('filepath_docx')->store('uploads');
     }
     if ($post->filepath_pdf = request('filepath_pdf')) {
-        $post->filepath_pdf = request('filepath_pdf')->store('/Users/patrick/Documenten/GitHub/juffen.nl/public');
+        $post->filepath_pdf = request('filepath_pdf')->store('uploads');
     }
     $post->save();
     return redirect('/upload');

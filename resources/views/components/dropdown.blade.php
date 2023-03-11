@@ -1,4 +1,4 @@
-@props(['groups', 'subjects'])
+@props(['groups', 'subjects', 'currentGroup'])
 
 <div class="mt-4 relative lg:inline-flex space-x-6">
 
@@ -7,7 +7,9 @@
         <button
             @click="show = !show"
             class="py-2 px-3 pl-3 pr-9 text-sm font-semibold w-full lg:w-32 text-left flex lg:inline-flex bg-gray-100 rounded-xl"
-        >Groep
+        >
+            {{ $currentGroup->name ?? 'Groep'}}
+
             <svg class="transform -rotate-90 abs pointer-events-none" style="right: 2px;" width="22"
                  height="22" viewBox="0 0 22 22">
                 <g fill="none" fill-rule="evenodd">
@@ -21,9 +23,10 @@
 
         <div x-show="show" class="py-2 absolute bg-gray-100 mt-2 rounded-xl w-32 z-50" style="display: none">
             @foreach($groups as $group)
-                <a href="/groups/{{ $group->slug }}"
-                   class="block text-left px-3 text-sm leading-6 hover:bg-gray-300 focus:bg-gray-300"
-                >{{ ucwords($group->name) }}</a>
+                <x-dropdown-item
+                    href="/groups/{{ $group->slug }}"
+                    :active="request()->is('groups/' . $group->slug)"
+                > {{ ucwords($group->name) }}</x-dropdown-item>
             @endforeach
         </div>
     </div>
@@ -33,7 +36,7 @@
         <button
             @click="show = !show"
             class="py-2 px-4 pl-3 pr-9 text-sm font-semibold w-full lg:w-32 text-left flex lg:inline-flex bg-gray-100 rounded-xl"
-        >Vak
+        > {{ $currentSubject->name ?? 'Vak'}}
             <svg class="transform -rotate-90 relative pointer-events-none" style="right: 2px;" width="22"
                  height="22" viewBox="0 0 22 22">
                 <g fill="none" fill-rule="evenodd">
@@ -47,9 +50,7 @@
 
         <div x-show="show" class="py-2 absolute bg-gray-100 mt-2 rounded-xl w-32 z-50" style="display: none">
             @foreach($subjects as $subject)
-                <a href="/subjects/{{ $subject->slug }}"
-                   class="block text-left px-3 text-sm leading-6 hover:bg-gray-300 focus:bg-gray-300"
-                >{{ ucwords($subject->name) }}</a>
+                <x-dropdown-item href="/subjects/{{ $subject->slug }}"> {{ $subject->name }}</x-dropdown-item>
             @endforeach
         </div>
     </div>
