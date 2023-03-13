@@ -22,7 +22,7 @@ Route::get('/', function () {
         'groups' => Group::all(),
         'subjects' => Subject::all(),
     ]);
-});
+})->name('home');
 
 Route::get('post/{slug}', function ($slug) {
     return view('post', [
@@ -37,19 +37,21 @@ Route::get('upload', function () {
 Route::get('groups/{group:slug}', function (Group $group) {
     return view('posts', [
         'posts' => $group->posts,
-        'currentGroup' => $group->name,
+        'currentGroup' => $group,
         'groups' => Group::all(),
         'subjects' => Subject::all(),
+
     ]);
-});
+})->name('group');
 
 Route::get('subjects/{subject:slug}', function (Subject $subject) {
     return view('posts', [
         'posts' => $subject->posts,
+        'currentSubject' => $subject,
         'subjects' => Subject::all(),
         'groups' => Group::all(),
     ]);
-});
+})->name('subject');
 
 Route::post('upload', function () {
     $post = new Post();
