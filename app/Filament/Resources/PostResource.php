@@ -7,6 +7,7 @@ use App\Filament\Resources\PostResource\RelationManagers;
 use App\Models\Group;
 use App\Models\Post;
 use App\Models\Subject;
+use Closure;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
@@ -16,6 +17,7 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class PostResource extends Resource
 {
@@ -28,18 +30,26 @@ class PostResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
+                    ->afterStateUpdated(function (Closure $get, Closure $set, ?string $state) {
+                        if (!$get('is_slug_changed_manually') && filled($state)) {
+                            $set('slug', Str::slug($state));
+                        }
+                    })
+                    ->reactive()
+                    ->required(),
                 Forms\Components\TextInput::make('slug')
-                    ->required()
-                    ->maxLength(255),
+                    ->afterStateUpdated(function (Closure $set) {
+                        $set('is_slug_changed_manually', true);
+                    })
+                    ->reactive()
+                    ->disabled(),
                 Forms\Components\Textarea::make('description')
                     ->maxLength(65535),
                 Forms\Components\Toggle::make('is_published'),
                 FileUpload::make('filepath_docx'),
                 FileUpload::make('filepath_pdf')
                     ->disk('local')
-                    ->directory('post')
+                    ->directory('uploads')
                     ->preserveFilenames(),
                 Select::make('group_id')
                     ->options(function () {
@@ -57,11 +67,8 @@ class PostResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title'),
-                Tables\Columns\TextColumn::make('description'),
                 Tables\Columns\IconColumn::make('is_published')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime(),
             ])

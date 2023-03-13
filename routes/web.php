@@ -22,7 +22,7 @@ Route::get('/', function () {
         'groups' => Group::all(),
         'subjects' => Subject::all(),
     ]);
-});
+})->name('home');
 
 Route::get('post/{slug}', function ($slug) {
     return view('post', [
@@ -37,32 +37,36 @@ Route::get('upload', function () {
 Route::get('groups/{group:slug}', function (Group $group) {
     return view('posts', [
         'posts' => $group->posts,
+        'currentGroup' => $group,
         'groups' => Group::all(),
         'subjects' => Subject::all(),
+
     ]);
-});
+})->name('group');
 
 Route::get('subjects/{subject:slug}', function (Subject $subject) {
     return view('posts', [
         'posts' => $subject->posts,
+        'currentSubject' => $subject,
         'subjects' => Subject::all(),
         'groups' => Group::all(),
     ]);
-});
+})->name('subject');
 
 Route::post('upload', function () {
     $post = new Post();
     $post->title = request('title');
-    $post->slug = request('slug');
+    $post->slug = request('title');
     $post->description = request('description');
     $post->group_id = 1;
     $post->subject_id = 1;
 
+
     if ($post->filepath_docx = request('filepath_docx')) {
-        $post->filepath_docx = request('filepath_docx')->store('/Users/patrick/Documenten/GitHub/juffen.nl/public');
+        $post->filepath_docx = request('filepath_docx')->store('uploads');
     }
     if ($post->filepath_pdf = request('filepath_pdf')) {
-        $post->filepath_pdf = request('filepath_pdf')->store('/Users/patrick/Documenten/GitHub/juffen.nl/public');
+        $post->filepath_pdf = request('filepath_pdf')->store('uploads');
     }
     $post->save();
     return redirect('/upload');
